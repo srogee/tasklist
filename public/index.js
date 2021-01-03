@@ -1,17 +1,25 @@
 let tasks = null;
+let isRefreshing = false;
+let lastTimeRefreshed = null;
+let automaticRefreshInterval = 30 * 1000; // 30 seconds
 
-function loadData() {
+function refresh() {
+    isRefreshing = true;
+
     $.ajax({
         url: '/api/getTasksForToday',
         dataType: 'json',
         success: (data) => {
+            isRefreshing = false;
+            lastTimeRefreshed = new Date();
             tasks = data;
             renderTasks();
+            console.log(`Refreshed at ${lastTimeRefreshed}`);
         }
     });
 }
 
-loadData();
+refresh();
 
 function renderTasks() {
     $('#content').empty();
@@ -39,6 +47,16 @@ function renderTasks() {
         $('#content').append(taskElement);
     }
 }
+
+function onAnimationFrame() {
+    if (!isRefreshing && lastTimeRefreshed !== null && new Date().getTime() - lastTimeRefreshed.getTime() >= automaticRefreshInterval) {
+        refresh();
+    }
+
+    requestAnimationFrame(onAnimationFrame);
+}
+
+requestAnimationFrame(onAnimationFrame);
 
 function setTaskValue(id, value) {
     let serializedData = JSON.stringify([[id, value]]);
