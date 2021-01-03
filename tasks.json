@@ -5,6 +5,17 @@
         "icon": "fas fa-capsules"
     },
     {
+        "name": "Weigh yourself",
+        "icon": "fas fa-weight",
+        "type": "number",
+        "min": 0,
+        "roundTo": 0.2,
+        "decimalPlaces": 1,
+        "autoCompleteValidValue": true,
+        "suffix": "lb",
+        "id": "V7_zP8bJz"
+    },
+    {
         "name": "Shower",
         "id": "z7WKhnfDZu",
         "icon": "fas fa-shower"
@@ -42,7 +53,13 @@
     {
         "name": "Drink 13 cups of water",
         "id": "rJp1gPHd1",
-        "icon": "fas fa-glass"
+        "icon": "fas fa-glass",
+        "type": "number",
+        "min": 0,
+        "autoCompleteMax": 13,
+        "roundTo": 1,
+        "decimalPlaces": 0,
+        "suffix": "cups"
     },
     {
         "name": "Brush teeth (PM)",

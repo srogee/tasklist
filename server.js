@@ -36,7 +36,11 @@ function getToday() {
 
 // Get the path for the JSON file that stores task values for the specified date
 function getDataPath(date) {
-    return path.join(__dirname, 'data', `${getDateString(date)}.json`);
+    let dataFolder = path.join(__dirname, 'data');
+    if (!fs.existsSync(dataFolder)) {
+        fs.mkdirSync(dataFolder);
+    }
+    return path.join(dataFolder, `${getDateString(date)}.json`);
 }
 
 // Get the string representation of a date, used for data paths and debugging
@@ -60,16 +64,22 @@ function getTaskDataForDate(date) {
 // Set which tasks have been completed for the specified date
 // Defaults to what is stored on disk and values can be overriden on a per task basis
 function setTaskDataForDate(date, overrides) {
-    try {
-        let tasks = getTaskDataForDate(date);
+    let tasks = getTaskDataForDate(date);
 
-        for (var [key, value] of overrides.entries()) {
-            tasks.set(key, value);
-            console.log(`Set "${key}" to "${value}" for ${getDateString(date)}`);
-        }
+    for (var [key, value] of overrides.entries()) {
+        tasks.set(key, value);
+        console.log(`Set "${key}" to "${getValueStr(value)}" for ${getDateString(date)}`);
+    }
 
-        fs.writeFileSync(getDataPath(date), JSON.stringify([...tasks.entries()], null, 4));
-    } catch (error) {}
+    fs.writeFileSync(getDataPath(date), JSON.stringify([...tasks.entries()], null, 4));
+}
+
+function getValueStr(taskData) {
+    if (taskData != null && typeof taskData === 'object') {
+        return JSON.stringify(taskData);
+    } else {
+        return taskData;
+    }
 }
 
 // Get the list of tasks and if they are completed or not
@@ -99,7 +109,13 @@ function getTaskList() {
     let data = getTaskDataForDate(getToday());
     for (let task of tasks) {
         if (data.has(task.id)) {
-            task.value = data.get(task.id);
+            let taskData = data.get(task.id);
+            if (taskData != null && typeof taskData === 'object') {
+                task.completed = taskData.completed;
+                task.value = taskData.value;
+            } else {
+                task.completed = !!taskData;
+            }
         }
     }
 
