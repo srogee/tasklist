@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Take vitamins",
+        "id": "yFH3xzD2Q",
+        "icon": "fas fa-capsules"
+    },
+    {
+        "name": "Shower",
+        "id": "z7WKhnfDZu",
+        "icon": "fas fa-shower"
+    },
+    {
+        "name": "Brush teeth (AM)",
+        "id": "XuYfzA2BV9",
+        "icon": "fas fa-toothbrush"
+    },
+    {
+        "name": "Make and eat breakfast",
+        "id": "8oyUAq1YcX",
+        "icon": "fas fa-utensils"
+    },
+    {
+        "name": "Make and drink protein shake",
+        "id": "KseOnBfgLi",
+        "icon": "fas fa-blender"
+    },
+    {
+        "name": "Make and eat lunch",
+        "id": "qqIG9GkR17",
+        "icon": "fas fa-utensils"
+    },
+    {
+        "name": "Exercise for 30 min",
+        "id": "BDCUMX8JZd",
+        "icon": "fas fa-dumbbell"
+    },
+    {
+        "name": "Make and eat dinner",
+        "id": "pZ-YXYAKrV",
+        "icon": "fas fa-utensils"
+    },
+    {
+        "name": "Drink 13 cups of water",
+        "id": "rJp1gPHd1",
+        "icon": "fas fa-glass"
+    },
+    {
+        "name": "Brush teeth (PM)",
+        "id": "766SLV_CTF",
+        "icon": "fas fa-toothbrush"
+    },
+    {
+        "name": "Take melatonin",
+        "id": "4LCKQGMu0W",
+        "icon": "fas fa-capsules"
+    }
+]
