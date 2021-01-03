@@ -49,7 +49,7 @@ function renderTasks() {
             $('#content').append(taskElement);
         }
 
-        renderedTasks = tasks;
+        renderedTasks = _.cloneDeep(tasks);
     } else {
         console.log('Skipping re-render, content is unchanged');
     }
