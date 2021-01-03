@@ -2,6 +2,7 @@ let tasks = null;
 let isRefreshing = false;
 let lastTimeRefreshed = null;
 let automaticRefreshInterval = 10 * 1000; // 10 seconds
+let renderedTasks = null;
 
 function refresh() {
     isRefreshing = true;
@@ -12,9 +13,9 @@ function refresh() {
         success: (data) => {
             isRefreshing = false;
             lastTimeRefreshed = new Date();
+            console.log(`Refreshed at ${lastTimeRefreshed}`);
             tasks = data;
             renderTasks();
-            console.log(`Refreshed at ${lastTimeRefreshed}`);
         }
     });
 }
@@ -22,29 +23,35 @@ function refresh() {
 refresh();
 
 function renderTasks() {
-    $('#content').empty();
+    if (!_.isEqual(tasks, renderedTasks)) {
+        $('#content').empty();
 
-    for (let task of tasks) {
-        let isChecked = !!task.value;
-        let textColor = isChecked ? 'text-primary text-decoration-line-through' : 'text-body';
-        let iconColor = isChecked ? 'text-primary' : 'text-body';
-        let taskElement = $(`
-            <div class="form-check form-control-lg">
-                <input class="form-check-input" type="checkbox" value="" id="${task.id}"${isChecked ? ' checked' : ''}>
-                <label class="form-check-label d-flex" for="${task.id}">
-                    <div class="d-flex align-items-center justify-content-center me-1" style="width: 30px"><i class="${iconColor} ${task.icon}"></i></div>
-                    <div class="${textColor}">${task.name}</div>
-                </label>
-            </div>
-        `);
+        for (let task of tasks) {
+            let isChecked = !!task.value;
+            let textColor = isChecked ? 'text-primary text-decoration-line-through' : 'text-body';
+            let iconColor = isChecked ? 'text-primary' : 'text-body';
+            let taskElement = $(`
+                <div class="form-check form-control-lg">
+                    <input class="form-check-input" type="checkbox" value="" id="${task.id}"${isChecked ? ' checked' : ''}>
+                    <label class="form-check-label d-flex" for="${task.id}">
+                        <div class="d-flex align-items-center justify-content-center me-1" style="width: 30px"><i class="${iconColor} ${task.icon}"></i></div>
+                        <div class="${textColor}">${task.name}</div>
+                    </label>
+                </div>
+            `);
 
-        let checkbox = taskElement.find('input');
-        checkbox.change(function() {
-            setTaskValue(this.id, !!this.checked);
-            renderTasks();
-        });
+            let checkbox = taskElement.find('input');
+            checkbox.change(function() {
+                setTaskValue(this.id, !!this.checked);
+                renderTasks();
+            });
 
-        $('#content').append(taskElement);
+            $('#content').append(taskElement);
+        }
+
+        renderedTasks = tasks;
+    } else {
+        console.log('Skipping re-render, content is unchanged');
     }
 }
 
