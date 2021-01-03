@@ -1,7 +1,7 @@
 let tasks = null;
 let isRefreshing = false;
 let lastTimeRefreshed = null;
-let automaticRefreshInterval = 30 * 1000; // 30 seconds
+let automaticRefreshInterval = 10 * 1000; // 10 seconds
 
 function refresh() {
     isRefreshing = true;
